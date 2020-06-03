@@ -61,22 +61,22 @@ const InfoModal = () => {
             <div>
               <u>Most common symptoms:</u>
               <ul className="collection">
-                <li className="collection-item">fever</li>
-                <li className="collection-item">dry cough</li>
-                <li className="collection-item">tiredness</li>
+                <li className="collection-item">Fever</li>
+                <li className="collection-item">Dry cough</li>
+                <li className="collection-item">Tiredness</li>
               </ul>
             </div>
             <div>
               <u>Less common symptoms:</u>
               <ul className="collection">
-                <li className="collection-item">aches and pains</li>
-                <li className="collection-item">sore throat</li>
-                <li className="collection-item">diarrhoea</li>
-                <li className="collection-item">conjunctivitis</li>
-                <li className="collection-item">headache</li>
-                <li className="collection-item">loss of taste or smell</li>
+                <li className="collection-item">Aches and pains</li>
+                <li className="collection-item">Sore throat</li>
+                <li className="collection-item">Diarrhoea</li>
+                <li className="collection-item">Conjunctivitis</li>
+                <li className="collection-item">Headache</li>
+                <li className="collection-item">Loss of taste or smell</li>
                 <li className="collection-item">
-                  a rash on skin, or discolouration of fingers or toes
+                  A rash on skin, or discolouration of fingers or toes
                 </li>
               </ul>
             </div>
@@ -84,10 +84,10 @@ const InfoModal = () => {
               <u>Serious symptoms:</u>
               <ul className="collection">
                 <li className="collection-item">
-                  breathing or shortness of breath
+                  Breathing or shortness of breath
                 </li>
-                <li className="collection-item">chest pain or pressure</li>
-                <li className="collection-item">loss of speech or movement</li>
+                <li className="collection-item">Chest pain or pressure</li>
+                <li className="collection-item">Loss of speech or movement</li>
               </ul>
             </div>
           </>
