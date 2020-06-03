@@ -1,0 +1,18 @@
+@import '~materialize-css/dist/css/materialize.css';
+
+.MuiBackdrop-root {
+  background-color: rgba(255, 255, 255, .9) !important;
+  z-index: 2 !important;
+}
+
+.makeStyles-modal-1 .MuiBackdrop-root{
+  z-index: -1 !important;
+}
+
+.MuiFormControl-root {
+  width: 100%;
+}
+
+.input-field.col {
+  width: 90%;
+}

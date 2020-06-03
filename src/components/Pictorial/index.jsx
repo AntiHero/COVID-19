@@ -1,16 +1,7 @@
 import React, { useContext, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Grid,
-  Backdrop,
-  CircularProgress,
-} from "@material-ui/core";
-import styles from "./Cards.module.scss";
+import { Backdrop, CircularProgress } from "@material-ui/core";
+import styles from "./Pictorial.module.scss";
 import CovidContext from "../../context";
-import CountUp from "react-countup";
-import cx from "classnames";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -21,20 +12,18 @@ const humanPath = "m62.096 8.5859c-5.208 0-9.424 4.2191-9.424 9.4261 0.001 5.203
 
 const Cards = () => {
   const context = useContext(CovidContext);
-
+  
   useEffect(() => {
-
+    let chart = null;
     if (Object.keys(context).length) {
       const { confirmed, recovered, deaths } = context;
 
-      const chart = am4core.create("chartdiv", am4charts.SlicedChart);
-      chart.paddingTop = am4core.percent(10);
-      chart.paddingBottom = am4core.percent(10);
-  
+      chart = am4core.create("chartdiv", am4charts.SlicedChart);
+
       chart.data = [
         {
           name: "Infected",
-          value: confirmed.value,
+          value: confirmed.value - recovered.value - deaths.value,
           color: am4core.color("#57c1ff"),
         },
         {
@@ -45,31 +34,34 @@ const Cards = () => {
         {
           name: "Deaths",
           value: deaths.value,
-          color: am4core.color("#ff5050"),
+          color: am4core.color("#c42e2e"),
         },
       ];
-  
+
       const series = chart.series.push(new am4charts.PictorialStackedSeries());
       series.dataFields.value = "value";
       series.dataFields.category = "name";
       series.startLocation = 0.0;
       series.endLocation = 1.0;
-  
+
       series.slicesContainer.background.fill = am4core.color("#676767");
       series.slicesContainer.background.fillOpacity = 0.2;
-  
+
       series.maskSprite.path = humanPath;
-  
+
       series.labelsContainer.width = am4core.percent(100);
       series.alignLabels = true;
+      series.labels.template.fontSize = 16;
+      series.labels.template.fontFamily = "Roboto";
+      series.labels.template.fontWeight = 500;
       series.slices.template.propertyFields.fill = "color";
       series.slices.template.propertyFields.stroke = "color";
-  
+
       const gradientModifier = new am4core.LinearGradientModifier();
       gradientModifier.lightnesses = [0.3, -0.1];
       series.slices.template.fillModifier = gradientModifier;
       series.slices.template.strokeModifier = gradientModifier;
-  
+
       // this makes the fills to start and end at certain location instead of taking whole picture
       series.endLocation = 1;
       series.startLocation = 0;
@@ -77,6 +69,10 @@ const Cards = () => {
       series.hiddenState.properties.startLocation = 0.553;
       series.ticks.template.locationX = 0.7;
       series.labelsContainer.width = 120;
+    }
+
+    return () => {
+      if (chart) chart.dispose();
     }
   }, [context]);
 
@@ -88,76 +84,9 @@ const Cards = () => {
     );
   }
 
-  const { confirmed, recovered, deaths } = context;
-
   return (
     <div className={styles.container}>
-      <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>
-      {/* <Grid container spacing={3} justify="center">
-        <Grid
-          item
-          component={Card}
-          xs={12}
-          md={3}
-          className={cx(styles.card, styles.infected)}
-        >
-          <CardContent>
-            <Typography variant="h6" color="textSecondary" gutterBottom>
-              Infected
-            </Typography>
-            <Typography variant="h5">
-              <CountUp
-                start={0}
-                end={confirmed.value}
-                duration={2}
-                separator="."
-              />
-            </Typography>
-          </CardContent>
-        </Grid>
-        <Grid
-          item
-          component={Card}
-          xs={12}
-          md={3}
-          className={cx(styles.card, styles.recovered)}
-        >
-          <CardContent>
-            <Typography variant="h6" color="textSecondary" gutterBottom>
-              Recovered
-            </Typography>
-            <Typography variant="h5">
-              <CountUp
-                start={0}
-                end={recovered.value}
-                duration={2}
-                separator="."
-              />
-            </Typography>
-          </CardContent>
-        </Grid>
-        <Grid
-          item
-          component={Card}
-          xs={12}
-          md={3}
-          className={cx(styles.card, styles.dead)}
-        >
-          <CardContent>
-            <Typography variant="h6" color="textSecondary" gutterBottom>
-              Deaths
-            </Typography>
-            <Typography variant="h5">
-              <CountUp
-                start={0}
-                end={deaths.value}
-                duration={2}
-                separator="."
-              />
-            </Typography>
-          </CardContent>
-        </Grid>
-      </Grid> */}
+      <div id="chartdiv" className="chart" style={{ width: "100%", height: "450px"}}></div>
     </div>
   );
 };
